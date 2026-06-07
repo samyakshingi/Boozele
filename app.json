@@ -8,9 +8,20 @@
     "scheme": "boozele",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.boozele.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Boozele needs your location to match you with nearby users and local house parties.",
+        "NSPhotoLibraryUsageDescription": "Boozele needs access to your photos so you can upload a profile picture."
+      }
     },
     "android": {
+      "package": "com.boozele.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

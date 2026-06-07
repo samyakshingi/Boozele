@@ -6,6 +6,7 @@ import { supabase } from '@/utils/supabase';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import AppTabs from '@/components/app-tabs';
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -90,9 +91,11 @@ export default function TabLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      {session ? <AppTabs /> : <Slot />}
-    </ThemeProvider>
+    <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_KEY || ''}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <AnimatedSplashOverlay />
+        {session ? <AppTabs /> : <Slot />}
+      </ThemeProvider>
+    </StripeProvider>
   );
 }

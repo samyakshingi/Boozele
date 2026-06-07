@@ -28,9 +28,9 @@
 - [x] Phase 5: Instant Private Plans & Group Canvas (COMPLETED)
   - [x] Step 5.1: Private Invite Modal & Group Chat Provisioning
   - [x] Step 5.2: Real-time Venue/Menu Collaborative Block
-- [ ] Phase 6: Public Community Core (CURRENT)
-  - [ ] Step 6.1: House Party Creation Form & Distance Feed
-  - [ ] Step 6.2: RSVP Logic & Safety Warning Integration
+- [ ] Phase 6: VIP Monetization & App Store Compliance (CURRENT)
+  - [x] Step 6.1: Stripe Payments Integration & Paywall UI
+  - [ ] Step 6.2: App Store & Google Play Build Configuration
 - [ ] Phase 7: Optimization & QA
   - [ ] Step 7.1: Build Optimizations & Web Deployment
 
@@ -67,6 +67,7 @@
     - **chat/** - Direct chat thread interface views
       - **[id].tsx** - Dynamic route messaging view with Realtime sync
     - **create-party.tsx** - Public party hosting creation form screen with safety disclaimer
+    - **vip-upgrade.tsx** - VIP paywall upgrade screen with Stripe Payment Sheet integrations
     - **_layout.tsx** - Root layout with auth session routers
   - **components/** - Modular and shared UI components
   - **constants/** - Visual system variables, colors, and margins
@@ -94,10 +95,17 @@
     - **20260607133500_add_conversation_insert_policy.sql** - Enables client-side inserts on the conversations table for group chat and party hosting
     - **20260607135000_harden_junction_and_add_rpc.sql** - Replaces junction insert policy with a secure, buddy-matched validation policy and creates atomic party hosting database RPC
     - **20260607140000_fix_junction_rls_bypass.sql** - Resolves RLS self-filtering bypass vulnerability on conversation_members insert using security definer helpers
+    - **20260607141000_add_vip_status.sql** - Adds is_vip column to profiles, configures RLS update prevention trigger, and helper dev-test RPC
 - **SYSTEM_STATE.md** - Active database and state tracking engine
 - **tsconfig.json** - Strict TypeScript compiler parameters
 
 ## 3. Engineering Changelog
+### [2026-06-07T14:15:00+05:30] Phase 6, Step 6.1 Completed
+- **Database VIP Migrations:** Added `is_vip` column to `public.profiles` in migration `20260607141000_add_vip_status.sql`. Coded a trigger function `prevent_vip_self_upgrade` that blocks authenticated users from self-upgrading their own profile VIP status. Added a `SECURITY DEFINER` helper function `test_vip_upgrade` to allow dev-mode mock checkouts.
+- **Stripe SDK Setup:** Wrapped root layout `src/app/_layout.tsx` in `<StripeProvider>` to expose Payment Sheet controls.
+- **VIP Paywall Screen:** Developed [src/app/vip-upgrade.tsx](file:///c:/Users/samya/Documents/Projects/Boozele/src/app/vip-upgrade.tsx) styling premium benefits with a custom gold/amber border. Hooked up Payment Sheet creation, presentation, and dev-mode fallback to mock upgrade via test RPC function.
+- **App Store Build compliance:** Configured `app.json` with bundle identifiers (`com.boozele.app`) and privacy justifications (`NSLocationWhenInUseUsageDescription` and `NSPhotoLibraryUsageDescription`) to satisfy App Store Connect compliance constraints.
+
 ### [2026-06-07T13:50:00+05:30] Junction RLS Self-Filtering Bypass Resolved
 - **RLS Penetration Fix:** Applied migration `20260607140000_fix_junction_rls_bypass.sql` which implements security definer validation helpers `public.has_conversation_members(...)` and `public.is_buddy_of_member(...)` executing as the database owner.
 - **Bypass Prevention:** Corrected the `Allow users to join conversation members` insert policy to query these security definer functions, completely closing the vulnerability where outsiders could bypass RLS check filters via standard `NOT EXISTS` query logic.
