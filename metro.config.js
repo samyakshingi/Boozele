@@ -8,7 +8,7 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (platform === 'web' && moduleName === '@stripe/stripe-react-native') {
     return {
       type: 'sourceFile',
-      filePath: require.resolve('./src/utils/stripe-mock.web.ts'),
+      filePath: require.resolve('./src/utils/stripe-mock.web.tsx'),
     };
   }
   return context.resolveRequest(context, moduleName, platform);
