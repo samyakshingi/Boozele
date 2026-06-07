@@ -5,7 +5,7 @@ import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/utils/supabase';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+
 import { StripeProvider } from '@stripe/stripe-react-native';
 
 export default function TabLayout() {
@@ -92,9 +92,9 @@ export default function TabLayout() {
 
   return (
     <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_KEY || ''}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DarkTheme}>
         <AnimatedSplashOverlay />
-        {session ? <AppTabs /> : <Slot />}
+        {session ? <Slot /> : <Slot />}
       </ThemeProvider>
     </StripeProvider>
   );
