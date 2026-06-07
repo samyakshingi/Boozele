@@ -57,6 +57,7 @@
 - **assets/** - Application static assets and images
 - **CLAUDE.md** - Development shortcuts
 - **eas.json** - EAS build configuration for development, preview, and production profiles
+- **metro.config.js** - Metro bundler configuration with custom resolver overrides for web platform compatibility
 - **LICENSE** - Project MIT license
 - **package.json** - Node dependencies, web compatibility configuration, and scripts
 - **package-lock.json** - Node dependency locking
@@ -84,6 +85,7 @@
   - **constants/** - Visual system variables, colors, and margins
   - **hooks/** - Global React Hooks (color schemes, hydration hooks)
   - **utils/** - Application utility files
+    - **stripe-mock.web.ts** - Web fallback/mock of @stripe/stripe-react-native to allow web testing
     - **supabase.ts** - Supabase client setup with Async Storage
   - **declarations.d.ts** - TypeScript module typings for CSS/assets
   - **global.css** - Application CSS rules
@@ -114,6 +116,7 @@
 ### [2026-06-07T14:30:00+05:30] Phase 6, Step 6.2 Completed
 - **EAS Build Configuration:** Created `eas.json` file defining profiles for development (`developmentClient: true`), preview (`distribution: internal`), and production (`autoIncrement: true`).
 - **Security Audit & Code Freeze:** Audited `/src/app` and `/src/utils` directories for hardcoded credentials. Verified all API connections use `process.env.EXPO_PUBLIC_...` environment variables securely.
+- **Web Platform Fix:** Created `metro.config.js` and `src/utils/stripe-mock.web.ts` to mock the native-only `@stripe/stripe-react-native` package during web builds, eliminating blank pages / bundling failures in local browser testing.
 - **Git Synchronization:** Executed final code freeze and successfully pushed the repository state to origin main.
 
 ### [2026-06-07T14:15:00+05:30] Phase 6, Step 6.1 Completed
